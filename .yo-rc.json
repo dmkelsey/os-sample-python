@@ -40,6 +40,19 @@
           "github_repo": "os-sample-python",
           "jenkinsFilePath": "Jenkinsfile",
           "uuid": "875762ee-e464-4099-837b-e80c6f661446"
+        },
+        "os-simple-python-build": {
+          "name": "os-simple-python",
+          "version": "1.0.0",
+          "path": ".",
+          "environments": {
+            "build": {
+              "namespace": "devops-demo-tools"
+            },
+            "dev": {
+              "namespace": "devops-demo-dev"
+            }
+          }
         }
       }
     }

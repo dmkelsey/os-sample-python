@@ -1,0 +1,53 @@
+{
+  "generator-bcdk": {
+    "promptValues": {
+      "modules": {
+        "jenkins": {
+          "path": ".jenkins",
+          "namespace": "devops-demo-tools",
+          "name": "jenkins",
+          "version": "1.0.0",
+          "environments": {
+            "build": {
+              "namespace": "devops-demo-tools"
+            },
+            "dev": {
+              "namespace": "devops-demo-dev"
+            },
+            "test": {
+              "namespace": "devops-demo-test"
+            },
+            "prod": {
+              "namespace": "devops-demo-prod"
+            }
+          },
+          "jenkinsJobName": "_jenkins",
+          "github_owner": "dkelsey",
+          "github_repo": "os-sample-python",
+          "jenkinsFilePath": ".jenkins/Jenkinsfile",
+          "uuid": "4e0331a2-7d66-4b1b-b151-a249e066a75a"
+        },
+        "hello": {
+          "name": "hello",
+          "version": "1.0.0",
+          "environments": {
+            "build": {
+              "namespace": "devops-demo-tools"
+            },
+            "dev": {
+              "namespace": "devops-demo-dev"
+            }
+          },
+          "path": "."
+        },
+        ".": {
+          "jenkinsJobName": "goober",
+          "github_owner": "dkelsey",
+          "github_repo": "os-sample-python",
+          "jenkinsFilePath": "Jenkinsfile",
+          "uuid": "0e08f67c-6d0b-476e-a964-b14602422397"
+        }
+      }
+    }
+  }
+}

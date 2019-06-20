@@ -7,7 +7,7 @@ module.exports = (settings)=>{
   const options = settings.options
   const phase=options.env
   const changeId = phases[phase].changeId
-  const oc=new OpenShiftClientX({'namespace':phases[phase].namespace});
+  const oc=new OpenShiftClientX(Object.assign({'namespace':phases[phase].namespace}, options));
   var objects = []
 
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../openshift'))
@@ -18,7 +18,7 @@ module.exports = (settings)=>{
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
       //'ROUTE_HOST': `${phases[phase].name}${phases[phase].suffix}-${phases[phase].namespace}.pathfinder.gov.bc.ca`
-      'ROUTE_HOST': `${phases[phase].name}${phases[phase].suffix}-${phases[phase].namespace}.192.168.64.4.nip.io`
+      'ROUTE_HOST': `${phases[phase].name}${phases[phase].suffix}-${phases[phase].namespace}..192.168.64.4.nip.io`
     }
   }))
 

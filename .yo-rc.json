@@ -1,0 +1,47 @@
+{
+  "generator-bcdk": {
+    "promptValues": {
+      "modules": {
+        "jenkins": {
+          "path": ".jenkins",
+          "namespace": "devops-demo-tools",
+          "name": "jenkins",
+          "version": "1.0.0",
+          "environments": {
+            "build": {
+              "namespace": "devops-demo-tools"
+            },
+            "dev": {
+              "namespace": "devops-demo-dev"
+            }
+          },
+          "jenkinsJobName": "_jenkins",
+          "github_owner": "dkelsey",
+          "github_repo": "os-sample-python",
+          "jenkinsFilePath": ".jenkins/Jenkinsfile",
+          "uuid": "c8122b73-cf1a-4837-8db3-4de865db7e5f"
+        },
+        "hello": {
+          "name": "hello",
+          "version": "1.0.0",
+          "path": ".",
+          "environments": {
+            "build": {
+              "namespace": "devops-demo-tools"
+            },
+            "dev": {
+              "namespace": "devops-demo-dev"
+            }
+          }
+        },
+        ".": {
+          "jenkinsJobName": "os-sample-python",
+          "github_owner": "dkelsey",
+          "github_repo": "os-sample-python",
+          "jenkinsFilePath": "Jenkinsfile",
+          "uuid": "875762ee-e464-4099-837b-e80c6f661446"
+        }
+      }
+    }
+  }
+}

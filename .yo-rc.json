@@ -53,6 +53,19 @@
               "namespace": "devops-demo-dev"
             }
           }
+        },
+        "os-sample-python": {
+          "name": "os-sample-python",
+          "version": "1.0.0",
+          "path": ".",
+          "environments": {
+            "build": {
+              "namespace": "devops-demo-tools"
+            },
+            "dev": {
+              "namespace": "devops-demo-dev"
+            }
+          }
         }
       }
     }

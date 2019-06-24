@@ -13,10 +13,11 @@ module.exports = (settings)=>{
 
   // The deployment of your cool app goes here ▼▼▼
   objects = objects.concat(oc.processDeploymentTemplate(
-    `${templatesLocalBaseUrl}/python-deploy.yaml`,
+    `${templatesLocalBaseUrl}/image-stream-deploy.yaml`,
     {
       'param':{
-        'NAMESPACE': phases[phase].name,
+        'SAMPLE_APP_SERVICE_NAME': phases[phase].name,
+        'NAMESPACE': phases[phase].namespace,
         //'SUFFIX': phases[phase].suffix,
         //'VERSION': phases[phase].tag,
         //'HOST': phases[phase].host || ''

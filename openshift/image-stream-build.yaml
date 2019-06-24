@@ -29,6 +29,16 @@ parameters:
   name: SAMPLE_APP_SERVICE_NAME
   required: true
   value: os-sample-python
+- description: The branch from the repo to build from.
+  displayName: Git Ref
+  name: GIT_REF
+  required: true
+  value: master
+- description: The name of the Github project repository for the application.
+  displayName: Github Repository
+  name: GIT_URL
+  required: true
+  value: https://github.com/dkelsey/os-sample-python
 objects:
 - apiVersion: build.openshift.io/v1
   kind: BuildConfig
@@ -50,7 +60,8 @@ objects:
     runPolicy: Serial
     source:
       git:
-        uri: https://github.com/dkelsey/os-sample-python.git
+        ref: ${GIT_REF}
+        uri: ${GIT_URL}
       type: Git
     strategy:
       sourceStrategy:

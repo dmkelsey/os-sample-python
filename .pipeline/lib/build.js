@@ -15,7 +15,8 @@ module.exports = (settings)=>{
     `${templatesLocalBaseUrl}/image-stream-build.yaml`,
     {
       'param':{
-        'NAMESPACE': phases[phase].name,
+        'SAMPLE_APP_SERVICE_NAME': phases[phase].name,
+        'NAMESPACE': phases[phase].namespace,
         //'SUFFIX': phases[phase].suffix,
         //'VERSION': phases[phase].tag
         //'GIT_URL': oc.git.http_url,

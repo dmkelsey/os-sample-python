@@ -24,7 +24,6 @@ pipeline {
                 sh "cd .pipeline && ./npmw ci && ./npmw run build -- --pr=${CHANGE_ID}"
             }
         }
-        /*
         stage('Deploy (DEV)') {
             agent { label 'deploy' }
             steps {
@@ -32,6 +31,7 @@ pipeline {
                 sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=dev"
             }
         }
+        /*
         stage('Deploy (TEST)') {
             agent { label 'deploy' }
             input {

@@ -12,6 +12,16 @@ module.exports = (settings)=>{
   var objects = []
 
   // The deployment of your cool app goes here ▼▼▼
+  objects = objects.concat(oc.processDeploymentTemplate(
+    `${templatesLocalBaseUrl}/python-deploy.yaml`,
+    {
+      'param':{
+        'NAMESPACE': phases[phase].name,
+        //'SUFFIX': phases[phase].suffix,
+        //'VERSION': phases[phase].tag,
+        //'HOST': phases[phase].host || ''
+      }
+    }))
 
   oc.applyRecommendedLabels(objects, phases[phase].name, phase, `${changeId}`, phases[phase].instance)
   oc.importImageStreams(objects, phases[phase].tag, phases.build.namespace, phases.build.tag)

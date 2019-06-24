@@ -11,6 +11,17 @@ module.exports = (settings)=>{
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../openshift'))
 
   // The building of your cool app goes here ▼▼▼
+  objects = objects.concat(oc.processDeploymentTemplate(
+    `${templatesLocalBaseUrl}/image-stream-build.yaml`,
+    {
+      'param':{
+        'NAMESPACE': phases[phase].name,
+        //'SUFFIX': phases[phase].suffix,
+        //'VERSION': phases[phase].tag
+        //'GIT_URL': oc.git.http_url,
+        //'GIT_REF': oc.git.ref
+      }
+    }))
 
   oc.applyRecommendedLabels(objects, phases[phase].name, phase, phases[phase].changeId, phases[phase].instance)
   oc.applyAndBuild(objects)

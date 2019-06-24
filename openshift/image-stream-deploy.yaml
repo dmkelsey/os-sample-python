@@ -1,0 +1,135 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: os-sample-python-build-template
+message: |-
+  The following ImageSgream has been created in your project: ${SAMPLE_APP_SERVICE_NAME}.
+  For more information about using this template, including OpenShift considerations, consult the documentation in [dkelsey/os-sample-python](https://github.com/dkelsey/os-sample-python).
+metadata:
+  annotations:
+    description: |-
+      Sample OpenShift Python Template for use in OpenShift without persistent storage.
+
+      WARNING: Any configuration stored will be lost upon pod destruction. ConfigMaps should be used for codified configuration.
+    iconClass: icon-other-unknown
+    openshift.io/display-name: os-sample-python
+    openshift.io/documentation-url: https://github.com/dkelksey/os-sample-python
+    openshift.io/long-description: This template provides a sample app and pipeline configuration for demonstration purposes.
+    openshift.io/provider-display-name: BCDevOps
+    openshift.io/support-url: https://github.com/bcdevops/
+    tags: python,sample-app
+  name: os-sample-python-template
+parameters:
+- description: The namespace this templated is deployed into.
+  displayName: Namespace
+  name: NAMESPACE
+  value: devops-demo-dev
+- description: The name of the OpenShift Service exposed for the sample application.
+  displayName: Sample Service Name
+  name: SAMPLE_APP_SERVICE_NAME
+  required: true
+  value: os-sample-python
+- description: Default route subdomain (minishift)
+  displayName: Route subdomain
+  name: ROUTE_SUBDOMAIN
+  required: true
+  value: 192.168.64.4.nip.io
+objects:
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    labels:
+      app: ${SAMPLE_APP_SERVICE_NAME}
+    name: ${SAMPLE_APP_SERVICE_NAME}
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app:  ${SAMPLE_APP_SERVICE_NAME}
+      deploymentconfig:  ${SAMPLE_APP_SERVICE_NAME}
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        labels:
+          app: ${SAMPLE_APP_SERVICE_NAME}
+          deploymentconfig: ${SAMPLE_APP_SERVICE_NAME}
+      spec:
+        containers:
+        - image: 172.30.1.1:5000/devops-demo-dev/os-sample-python@sha256:57f9fac8bdab07fb27c9fe3c3eec94af6b69f68aedc6f57c16bf7fafdc6d71e7
+          imagePullPolicy: Always
+          name: ${SAMPLE_APP_SERVICE_NAME}
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${SAMPLE_APP_SERVICE_NAME}
+        from:
+          kind: ImageStreamTag
+          name: ${SAMPLE_APP_SERVICE_NAME}:latest
+          namespace: ${NAMESPACE}
+          # lastTriggeredImage: 172.30.1.1:5000/devops-demo-dev/os-sample-python@sha256:57f9fac8bdab07fb27c9fe3c3eec94af6b69f68aedc6f57c16bf7fafdc6d71e7
+      type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    labels:
+      app: ${SAMPLE_APP_SERVICE_NAME}
+    name: ${SAMPLE_APP_SERVICE_NAME}
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: ${SAMPLE_APP_SERVICE_NAME}
+      deploymentconfig: ${SAMPLE_APP_SERVICE_NAME}
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    labels:
+      app: ${SAMPLE_APP_SERVICE_NAME}
+    name: ${SAMPLE_APP_SERVICE_NAME}
+  spec:
+    host: ${SAMPLE_APP_SERVICE_NAME}-${NAMESPACE}.${ROUTE_SUBDOMAIN}
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: ${SAMPLE_APP_SERVICE_NAME}
+      weight: 100
+    wildcardPolicy: None

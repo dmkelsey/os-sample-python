@@ -1,0 +1,89 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: ${SAMPLE_APP_SERVICE_NAME}-build-template
+message: |-
+  The following ImageSgream has been created in your project: ${SAMPLE_APP_SERVICE_NAME}.
+  For more information about using this template, including OpenShift considerations, consult the documentation in [dkelsey/os-sample-python](https://github.com/dkelsey/os-sample-python).
+metadata:
+  annotations:
+    description: |-
+      Sample OpenShift Python Template for use in OpenShift without persistent storage.
+
+      WARNING: Any configuration stored will be lost upon pod destruction. ConfigMaps should be used for codified configuration.
+    iconClass: icon-other-unknown
+    openshift.io/display-name: ${SAMPLE_APP_SERVICE_NAME}
+    openshift.io/documentation-url: https://github.com/dkelksey/os-sample-python
+    openshift.io/long-description: This template provides a sample app and pipeline configuration for demonstration purposes.
+    openshift.io/provider-display-name: BCDevOps
+    openshift.io/support-url: https://github.com/bcdevops/
+    tags: python,sample-app
+  name: ${SAMPLE_APP_SERVICE_NAME}-template
+parameters:
+- description: The namespace this templated is deployed into.
+  displayName: Namespace
+  name: NAMESPACE
+  value: devops-demo-dev
+- description: The name of the OpenShift Service exposed for the sample application.
+  displayName: Sample Service Name
+  name: SAMPLE_APP_SERVICE_NAME
+  required: true
+  value: os-sample-python
+objects:
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    labels:
+      app: ${SAMPLE_APP_SERVICE_NAME}
+    name: ${SAMPLE_APP_SERVICE_NAME}
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${SAMPLE_APP_SERVICE_NAME}:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: https://github.com/dkelsey/os-sample-python.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: python:3.6
+          namespace: openshift
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - ImageChange: {}
+      type: ImageChange
+    - type: ConfigChange
+# a PR will now trigger Jenkins to issue a build,
+#   (no longer will the webhood trigger a build directly)
+#    - github:
+#        secret: pCNHiab6dvy1zXxn_9PF
+#      type: GitHub
+#    - generic:
+#        secret: oN1T1n8w3MsdBDIUVkee
+#      type: Generic
+#    - type: ConfigChange
+#    - imageChange:
+#        lastTriggeredImageID: 172.30.1.1:5000/openshift/python@sha256:b78ccc700de3e8866aafa0b6267485d1dfb69bf7db9b2c57535ddaa388be5efa
+#      type: ImageChange
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    labels:
+      app: ${SAMPLE_APP_SERVICE_NAME}
+    name: ${SAMPLE_APP_SERVICE_NAME}
+  spec:
+    lookupPolicy:
+      local: false

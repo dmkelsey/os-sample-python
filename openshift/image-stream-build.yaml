@@ -39,6 +39,9 @@ parameters:
   name: GIT_URL
   required: true
   value: https://github.com/dkelsey/os-sample-python
+- description: Tag used for generated images
+  displayName: Image Tag
+  name: VERSION
 objects:
 - apiVersion: build.openshift.io/v1
   kind: BuildConfig
@@ -54,7 +57,7 @@ objects:
     output:
       to:
         kind: ImageStreamTag
-        name: ${SAMPLE_APP_SERVICE_NAME}:latest
+        name: ${SAMPLE_APP_SERVICE_NAME}:${VERSION}
     postCommit: {}
     resources: {}
     runPolicy: Serial

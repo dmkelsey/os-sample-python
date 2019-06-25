@@ -29,6 +29,9 @@ parameters:
   name: SAMPLE_APP_SERVICE_NAME
   required: true
   value: os-sample-python
+- description: Tag used for generated images
+  displayName: Image Tag
+  name: VERSION
 - description: Default route subdomain (minishift)
   displayName: Route subdomain
   name: ROUTE_SUBDOMAIN
@@ -68,7 +71,8 @@ objects:
           deploymentconfig: ${SAMPLE_APP_SERVICE_NAME}
       spec:
         containers:
-        - image: 172.30.1.1:5000/devops-demo-dev/os-sample-python@sha256:57f9fac8bdab07fb27c9fe3c3eec94af6b69f68aedc6f57c16bf7fafdc6d71e7
+        #- image: 172.30.1.1:5000/devops-demo-tools/os-sample-python@sha256:57f9fac8bdab07fb27c9fe3c3eec94af6b69f68aedc6f57c16bf7fafdc6d71e7
+        - image: " "
           imagePullPolicy: Always
           name: ${SAMPLE_APP_SERVICE_NAME}
           ports:
@@ -86,13 +90,14 @@ objects:
     triggers:
     - type: ConfigChange
     - imageChangeParams:
-        automatic: true
+        # automatic: true
         containerNames:
         - ${SAMPLE_APP_SERVICE_NAME}
         from:
           kind: ImageStreamTag
-          name: ${SAMPLE_APP_SERVICE_NAME}:latest
-          namespace: ${NAMESPACE}
+          name: ${SAMPLE_APP_SERVICE_NAME}:${VERSION}
+          #namespace: ${NAMESPACE}
+          namespace: devops-demo-tools
           # lastTriggeredImage: 172.30.1.1:5000/devops-demo-dev/os-sample-python@sha256:57f9fac8bdab07fb27c9fe3c3eec94af6b69f68aedc6f57c16bf7fafdc6d71e7
       type: ImageChange
 - apiVersion: v1

@@ -19,10 +19,13 @@ module.exports = (settings)=>{
         'SAMPLE_APP_SERVICE_NAME': phases[phase].name,
         'NAMESPACE': phases[phase].namespace,
         //'SUFFIX': phases[phase].suffix,
-        //'VERSION': phases[phase].tag,
+        'VERSION': phases[phase].tag,
         //'HOST': phases[phase].host || ''
       }
     }))
+  // maybe don't do this
+  //oc.raw('rollout', ['latest', 'dc/os-sample-python'], {namespace: 'devops-demo-dev'})
+  //oc.raw('rollout', ['latest', 'dc/os-sample-python'], {})
 
   oc.applyRecommendedLabels(objects, phases[phase].name, phase, `${changeId}`, phases[phase].instance)
   oc.importImageStreams(objects, phases[phase].tag, phases.build.namespace, phases.build.tag)

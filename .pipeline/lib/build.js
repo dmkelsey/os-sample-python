@@ -10,7 +10,7 @@ module.exports = (settings)=>{
   let objects = []
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../openshift'))
 
-  console.log(oc.git)
+  //console.log(oc.git)
   // The building of your cool app goes here ▼▼▼
   objects = objects.concat(oc.processDeploymentTemplate(
     `${templatesLocalBaseUrl}/image-stream-build.yaml`,

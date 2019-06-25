@@ -4,7 +4,8 @@ application = Flask(__name__)
 
 @application.route("/")
 def hello():
-    return "<h1>Hello Bubba!</h1> <h2>from : %s <h2>" % socket.gethostname()
+    return """<h1>Hello Bubba!</h1>
+    <h2>from : <p style="color: red;">%s</p> <h2>""" % socket.gethostname()
 
 if __name__ == "__main__":
     application.run()

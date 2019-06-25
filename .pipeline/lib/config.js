@@ -23,7 +23,20 @@ const phases = {
     suffix: `-dev-${changeId}`,
     instance: `${name}-dev-${changeId}`,
     version:`${version}-${changeId}`,
-    tag:`dev-${version}-${changeId}`},
+    /*
+       With build happening in tools, the image is tagged with
+       build-1.0.0-##
+       because the imageStrem is in tools and deployed to the
+       dev namespace I've changed the tag here from:
+
+       dev-1.0.0-##
+
+       to:
+
+       build-1.0.0-##
+    */
+    //tag:`dev-${version}-${changeId}`},
+    tag:`build-${version}-${changeId}`},
 };
 
 // This callback forces the node process to exit as failure.

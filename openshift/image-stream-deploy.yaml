@@ -118,7 +118,8 @@ objects:
       app: ${SAMPLE_APP_SERVICE_NAME}
       deploymentconfig: ${SAMPLE_APP_SERVICE_NAME}
     sessionAffinity: None
-    type: ClusterIP
+    #type: ClusterIP
+    type: LoadBalancer
   status:
     loadBalancer: {}
 - apiVersion: route.openshift.io/v1
